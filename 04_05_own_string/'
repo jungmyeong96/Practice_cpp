@@ -1,0 +1,43 @@
+#include <iostream>
+
+class string
+{
+	private:
+		char c;
+		char *str_;
+	public:
+		static char *mkcstr(char c);
+		static char *mkstrstr(char *str);
+	//	int str_len(char *str);
+	//	char *str_len(char *str1, char *str2);
+	//	char *str_charset(char *str, char *chset);
+	//	char *str_same(char *str1, char *str2);
+	//	char *str_cmp(char *str1, char *str2);
+};
+
+char *string::mkcstr(char c)
+{
+	str_ = new char[2];
+	strcpy(str_, &c);
+}
+
+char *string::mkstrstr(char *str)
+{
+	str_ = new char[strlen(str) + 1];
+	strcpy(str_, str);
+}
+
+int main()
+{
+	char c;
+	char *str;
+
+	c = 'a';
+	str = "hahaha";
+	std::cout << str << std::endl;
+	str = string::mkcstr(c);
+	std::cout << str << std::endl;
+	str = string::mkstrstr(str);
+	std::cout << str << std::endl;
+	
+}
