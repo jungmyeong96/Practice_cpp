@@ -21,6 +21,9 @@ class MyString
 	void	print() const;
 	void	println() const;
 	char	at(int i) const;
+	MyString& MyString::insert(int loc, const MyString& str);
+	MyString& MyString::insert(int loc, const char* str);
+	MyString& MyString::insert(int loc, char c);
 	MyString& assign(const MyString& str);
 	MyString& assign(const char* str);
 };
