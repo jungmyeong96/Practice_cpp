@@ -21,9 +21,9 @@ class MyString
 	void	print() const;
 	void	println() const;
 	char	at(int i) const;
-	MyString& MyString::insert(int loc, const MyString& str);
-	MyString& MyString::insert(int loc, const char* str);
-	MyString& MyString::insert(int loc, char c);
+	MyString& insert(int loc, const MyString& str);
+	MyString& insert(int loc, const char* str);
+	MyString& insert(int loc, char c);
 	MyString& assign(const MyString& str);
 	MyString& assign(const char* str);
 };
@@ -122,6 +122,49 @@ char MyString::at(int i) const
 		return string_content[i];
 }
 
+MyString& MyString::insert(int loc, const MyString& str)
+{
+	if (loc < 0 || loc > this->string_length)
+		return *this;
+	if (this->string_length + str.string_length > memory_capacity)
+	{
+	  	if (this->memory_capacity * 2 > this->string_length + str.string_length)
+			this->memory_capacity *= 2;
+   		else
+			this->memory_capacity = this->string_length + str.string_length;
+		char	*prev_string_content = this->string_content;
+		this->string_content = new char[memory_capacity];
+
+		int i;
+		for (i = 0; i < loc; i++)
+			this->string_content[i] = prev_string_content[i];
+		for (int j = 0; j < str.string_length; j++)
+			this->string_content[i + j] = str.string_content[j];
+		for (; i < this->string_length; i++)
+			this->string_content[i + str.string_length] = prev_string_content[i];
+		delete[] prev_string_content;
+		this->string_length = this->string_length + str.string_length;
+		return *this;
+	}
+	for (int i = this->string_length - 1; i >= loc; i--)
+		this->string_content[i + str.string_length] = this->string_content[i];
+	for (int i = 0; i < str.string_length; i++)
+		this->string_content[i + loc] = str.string_content[i];
+	this->string_length = this->string_length + str.string_length;
+	return *this;
+}
+
+MyString& MyString::insert(int loc, const char* str)
+{
+	MyString temp(str);
+	return (insert(loc, temp));
+}
+MyString& MyString::insert(int loc, char c)
+{
+	MyString temp(c);
+	return (insert(loc, temp));
+}
+
 void MyString::print() const {
   for (int i = 0; i != string_length; i++) {
     std::cout << string_content[i];
@@ -136,11 +179,19 @@ void MyString::println() const {
 }
 
 int main() {
-  MyString str1("very very very long string");
+  MyString str1("very long string");
+  MyString str2("<some string inserted between>");
   str1.reserve(30);
 
   std::cout << "Capacity : " << str1.capacity() << std::endl;
   std::cout << "String length : " << str1.length() << std::endl;
-  std::cout << "String offset : " << str1.at(6) << std::endl;
+  str1.println();
+
+  str1.insert(5, str2);
+  str1.println();
+
+  std::cout << "Capacity : " << str1.capacity() << std::endl;
+  std::cout << "String length : " << str1.length() << std::endl;
   str1.println();
 }
+
