@@ -2,23 +2,42 @@
 
 class MyString {
 	private:
-	char * string_content;
-	int string_length;
-
-	int memory_capacity;
+//	char * string_content;
+//	int string_length;
+//	int change;
+//	int memory_capacity;
+	mutable int datas;//const 함수 안에서 해당 멤버 변수에 const 가 아닌 작업을 할 수 있게 만들어줍니다.
 
 	public:
-	MyString(int capacity);
+//	explicit MyString(int capacity); //명시적으로 정확한 파라미터를 검사
 
-	MyString(const char a);
-	MyString(const char *str);
-	MyString(const MyString& str);
+	//MyString(const char a);
+	//MyString(const char *str);
+	//MyString(const MyString& str);
+	MyString(int data);
 
-	~MyString();
+//	~MyString();
 
-	int length() const;
+	//int length() const;
+	void DoSomething(int x) const;	
+	void PrintData() const;
+
 };
 
+MyString::MyString(int data)
+{
+	datas = data;
+}
+
+void MyString::DoSomething(int x) const {
+		datas = x;
+}
+
+void MyString::PrintData() const {
+	std::cout << "data: " << datas << std::endl; 
+}
+
+/*
 MyString::MyString(const MyString& str)
 {
   string_length = str.string_length;
@@ -48,8 +67,12 @@ MyString::MyString(const char* str) {
 
 MyString::~MyString() { delete[] string_content; }
 int MyString::length() const { return string_length; }
-
+*/
 int main()
 {
-	MyString s(3);
+	//MyString s(3);
+	MyString A(10);
+
+	A.DoSomething(3);
+	A.PrintData();
 }
